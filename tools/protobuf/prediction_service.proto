@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package tensorflow.serving;
+option cc_enable_arenas = true;
+option go_package = "github.com/ouwen/minflow_serve_proto/protobuf/prediction_service";
+
+import "protobuf/classification.proto";
+import "protobuf/get_model_metadata.proto";
+import "protobuf/inference.proto";
+import "protobuf/predict.proto";
+import "protobuf/regression.proto";
+
+// open source marker; do not remove
+// PredictionService provides access to machine-learned models loaded by
+// model_servers.
+service PredictionService {
+  // Classify.
+  rpc Classify(ClassificationRequest) returns (ClassificationResponse);
+
+  // Regress.
+  rpc Regress(RegressionRequest) returns (RegressionResponse);
+
+  // Predict -- provides access to loaded TensorFlow model.
+  rpc Predict(PredictRequest) returns (PredictResponse);
+
+  // MultiInference API for multi-headed models.
+  rpc MultiInference(MultiInferenceRequest) returns (MultiInferenceResponse);
+
+  // GetModelMetadata - provides access to metadata for loaded models.
+  rpc GetModelMetadata(GetModelMetadataRequest)
+      returns (GetModelMetadataResponse);
+}
